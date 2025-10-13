@@ -30,6 +30,69 @@
             z-index: 1;
         }
 
+        /* Particules lumineuses flottantes */
+        .dust-particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: rgba(0, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2;
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+            animation: dustFloat 15s linear infinite;
+        }
+
+        @keyframes dustFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Néons latéraux clignotants */
+        .neon-bar {
+            position: fixed;
+            width: 4px;
+            height: 100%;
+            z-index: 2;
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+
+        .neon-bar.left {
+            left: 0;
+            background: linear-gradient(180deg, 
+                transparent, 
+                rgba(0, 255, 255, 0.8) 50%, 
+                transparent);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+
+        .neon-bar.right {
+            right: 0;
+            background: linear-gradient(180deg, 
+                transparent, 
+                rgba(255, 0, 255, 0.8) 50%, 
+                transparent);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+            animation-delay: 1s;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
         /* Container principal */
         .splash-container {
             position: fixed;
@@ -40,14 +103,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2;
+            z-index: 3;
         }
 
         /* Cercle central qui pulse */
         .central-circle {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -55,13 +118,103 @@
         }
 
         @keyframes mainPulse {
-            0%, 100% {
-                transform: scale(1);
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(5deg); }
+        }
+
+        /* Logo 3D rotatif */
+        .logo-3d {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            transform-style: preserve-3d;
+            animation: rotate3D 10s linear infinite, bounceLogo 12s ease-in-out infinite;
+            z-index: 100;
+        }
+
+        @keyframes rotate3D {
+            from { transform: rotateY(0deg) rotateX(0deg); }
+            to { transform: rotateY(360deg) rotateX(360deg); }
+        }
+
+        @keyframes bounceLogo {
+            0% {
+                top: 2%;
+                left: 2%;
+            }
+            8.33% {
+                top: 2%;
+                left: 95%;
+            }
+            16.66% {
+                top: 95%;
+                left: 95%;
+            }
+            25% {
+                top: 95%;
+                left: 2%;
+            }
+            33.33% {
+                top: 50%;
+                left: 2%;
+            }
+            41.66% {
+                top: 2%;
+                left: 50%;
             }
             50% {
-                transform: scale(1.1);
+                top: 2%;
+                left: 95%;
+            }
+            58.33% {
+                top: 50%;
+                left: 95%;
+            }
+            66.66% {
+                top: 95%;
+                left: 50%;
+            }
+            75% {
+                top: 95%;
+                left: 2%;
+            }
+            83.33% {
+                top: 50%;
+                left: 2%;
+            }
+            91.66% {
+                top: 2%;
+                left: 50%;
+            }
+            100% {
+                top: 2%;
+                left: 2%;
             }
         }
+
+        .logo-face {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, 
+                rgba(0, 255, 255, 0.3), 
+                rgba(255, 0, 255, 0.3));
+            border: 2px solid rgba(0, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-face:nth-child(1) { transform: translateZ(75px); }
+        .logo-face:nth-child(2) { transform: rotateY(90deg) translateZ(75px); }
+        .logo-face:nth-child(3) { transform: rotateY(180deg) translateZ(75px); }
+        .logo-face:nth-child(4) { transform: rotateY(-90deg) translateZ(75px); }
+        .logo-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
+        .logo-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
 
         /* Anneaux qui tournent */
         .ring {
@@ -74,14 +227,14 @@
         .ring:nth-child(1) {
             width: 100%;
             height: 100%;
-            border-color: rgba(0, 255, 255, 0.3);
+            border-color: rgba(0, 255, 255, 0.4);
             animation-duration: 8s;
         }
 
         .ring:nth-child(2) {
             width: 120%;
             height: 120%;
-            border-color: rgba(255, 0, 255, 0.2);
+            border-color: rgba(255, 0, 255, 0.3);
             animation-duration: 12s;
             animation-direction: reverse;
         }
@@ -89,7 +242,7 @@
         .ring:nth-child(3) {
             width: 140%;
             height: 140%;
-            border-color: rgba(0, 128, 255, 0.2);
+            border-color: rgba(0, 128, 255, 0.3);
             animation-duration: 15s;
         }
 
@@ -100,13 +253,13 @@
 
         /* Cercle intérieur avec gradient */
         .inner-circle {
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, 
                 rgba(0, 255, 255, 0.4), 
                 rgba(255, 0, 255, 0.3), 
-                rgba(0, 0, 0, 0.8));
+                rgba(0, 0, 0, 0.9));
             box-shadow: 
                 0 0 100px rgba(0, 255, 255, 0.6),
                 0 0 200px rgba(255, 0, 255, 0.4),
@@ -136,9 +289,9 @@
             }
         }
 
-        /* Texte */
+        /* Texte avec effet glitch */
         .title {
-            font-size: 42px;
+            font-size: 48px;
             font-weight: 900;
             background: linear-gradient(135deg, #00ffff, #ff00ff, #00ffff);
             background-size: 200% 200%;
@@ -146,9 +299,9 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-align: center;
-            animation: gradientFlow 3s ease infinite;
-            text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
-            letter-spacing: 4px;
+            animation: gradientFlow 3s ease infinite, glitch 5s infinite;
+            letter-spacing: 6px;
+            position: relative;
         }
 
         @keyframes gradientFlow {
@@ -156,44 +309,334 @@
             50% { background-position: 100% 50%; }
         }
 
+        @keyframes glitch {
+            0%, 90%, 100% {
+                transform: translate(0);
+                text-shadow: 
+                    0 0 30px rgba(0, 255, 255, 0.8),
+                    2px 2px 10px rgba(255, 0, 255, 0.5);
+            }
+            92% {
+                transform: translate(-3px, 2px);
+                text-shadow: 
+                    -3px 0 10px rgba(255, 0, 0, 0.8),
+                    3px 0 10px rgba(0, 255, 255, 0.8);
+            }
+            94% {
+                transform: translate(2px, -2px);
+                text-shadow: 
+                    2px 0 10px rgba(0, 255, 0, 0.8),
+                    -2px 0 10px rgba(255, 0, 255, 0.8);
+            }
+        }
+
         .subtitle {
-            font-size: 16px;
-            color: rgba(0, 255, 255, 0.8);
+            font-size: 18px;
+            color: rgba(0, 255, 255, 0.9);
             text-align: center;
             animation: blink 2s ease-in-out infinite;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
         }
 
         @keyframes blink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.4; }
         }
 
-        /* Particules autour du cercle */
+        /* Particules orbitales */
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
+            width: 6px;
+            height: 6px;
             background: #00ffff;
             border-radius: 50%;
+            box-shadow: 0 0 15px #00ffff;
+            animation: orbit 8s linear infinite;
+        }
+
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
+        }
+
+        .particle:nth-child(1) { animation-delay: 0s; }
+        .particle:nth-child(2) { animation-delay: -1s; }
+        .particle:nth-child(3) { animation-delay: -2s; }
+        .particle:nth-child(4) { animation-delay: -3s; }
+        .particle:nth-child(5) { animation-delay: -4s; }
+        .particle:nth-child(6) { animation-delay: -5s; }
+        .particle:nth-child(7) { animation-delay: -6s; }
+        .particle:nth-child(8) { animation-delay: -7s; }
+
+        /* Barre de progression cyberpunk */
+        .progress-container {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            z-index: 100;
+            display: none;
+        }
+
+        .progress-container.active {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(50px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, 
+                #00ffff, 
+                #ff00ff, 
+                #00ffff);
+            background-size: 200% 100%;
+            animation: progressFlow 2s linear infinite;
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+
+        @keyframes progressFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        .progress-text {
+            text-align: center;
+            color: rgba(0, 255, 255, 0.9);
+            font-size: 14px;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .countdown-timer {
+            text-align: center;
+            color: rgba(255, 0, 255, 0.9);
+            font-size: 48px;
+            font-weight: 900;
+            margin-top: 15px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+            animation: timerPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Lasers qui traversent l'écran */
+        .laser {
+            position: fixed;
+            height: 2px;
+            width: 0;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            box-shadow: 0 0 20px #00ffff;
+            z-index: 2;
+            animation: laserShoot 3s ease-in-out infinite;
+        }
+
+        @keyframes laserShoot {
+            0% { width: 0; left: 0; }
+            50% { width: 100%; }
+            100% { width: 0; left: 100%; }
+        }
+
+        /* Hexagones flottants */
+        .hexagon {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 2;
+            animation: hexFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes hexFloat {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            50% {
+                transform: translateY(50vh) rotate(180deg) scale(1);
+                opacity: 1;
+            }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(0) rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Ondes de choc */
+        .shockwave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(0, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: shockExpand 3s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shockExpand {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Scanlines rétro */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 255, 0.03) 0px,
+                transparent 1px,
+                transparent 2px,
+                rgba(0, 255, 255, 0.03) 3px
+            );
+            z-index: 10;
+            pointer-events: none;
+            animation: scanlineMove 8s linear infinite;
+        }
+
+        @keyframes scanlineMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(20px); }
+        }
+
+        /* Chiffres Matrix qui tombent */
+        .matrix-char {
+            position: fixed;
+            color: #00ffff;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-shadow: 0 0 10px #00ffff;
+            z-index: 2;
+            animation: matrixFall 5s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes matrixFall {
+            0% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Éclairs électriques */
+        .lightning {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                transparent,
+                #00ffff 30%,
+                #ff00ff 50%,
+                #00ffff 70%,
+                transparent
+            );
             box-shadow: 0 0 10px #00ffff;
-            animation: float 3s ease-in-out infinite;
+            animation: lightningStrike 4s ease-in-out infinite;
+            opacity: 0;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-20px) translateX(10px); }
+        @keyframes lightningStrike {
+            0%, 90%, 100% { opacity: 0; }
+            92%, 96% { opacity: 1; }
+            94%, 98% { opacity: 0.3; }
         }
 
-        /* Génération de particules aléatoires */
-        .particle:nth-child(1) { top: 10%; left: 50%; animation-delay: 0s; }
-        .particle:nth-child(2) { top: 30%; left: 20%; animation-delay: 0.5s; }
-        .particle:nth-child(3) { top: 50%; left: 80%; animation-delay: 1s; }
-        .particle:nth-child(4) { top: 70%; left: 60%; animation-delay: 1.5s; }
-        .particle:nth-child(5) { top: 80%; left: 30%; animation-delay: 2s; }
-        .particle:nth-child(6) { top: 20%; left: 70%; animation-delay: 0.3s; }
-        .particle:nth-child(7) { top: 60%; left: 10%; animation-delay: 0.8s; }
-        .particle:nth-child(8) { top: 40%; left: 90%; animation-delay: 1.3s; }
+        /* Cercles géométriques flottants */
+        .geo-circle {
+            position: fixed;
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            border-radius: 50%;
+            z-index: 2;
+            animation: geoFloat 10s ease-in-out infinite;
+        }
+
+        @keyframes geoFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.5; }
+            50% {
+                transform: translate(200px, -200px) rotate(180deg) scale(1);
+                opacity: 0.5;
+            }
+            90% { opacity: 0.5; }
+            100% {
+                transform: translate(400px, -400px) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Grille cyberpunk au sol */
+        .cyber-grid {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            background: 
+                linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(0, 255, 255, 0.1) 0px,
+                    transparent 1px,
+                    transparent 50px,
+                    rgba(0, 255, 255, 0.1) 51px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 255, 0.1) 0px,
+                    transparent 1px,
+                    transparent 50px,
+                    rgba(0, 255, 255, 0.1) 51px
+                );
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: bottom;
+            z-index: 1;
+            opacity: 0.5;
+        }
 
         /* Message "Cliquez" */
         .click-message {
@@ -201,63 +644,38 @@
             bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
             z-index: 100;
             animation: bounce 2s ease-in-out infinite;
             letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
+            50% { transform: translateX(-50%) translateY(-15px); }
         }
 
-        /* Compteur de redirection */
-        .countdown {
-            position: fixed;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(0, 255, 255, 0.8);
-            font-size: 18px;
-            font-weight: 700;
-            z-index: 100;
-            display: none;
-            letter-spacing: 2px;
-        }
-
-        .countdown.active {
-            display: block;
-            animation: pulse 1s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.1); }
-        }
-
-        /* Effet de fade out lors du clic */
+        /* Effet de fade out */
         body.fade-out {
             animation: fadeOut 0.8s ease forwards;
         }
 
         @keyframes fadeOut {
-            to {
-                opacity: 0;
-            }
+            to { opacity: 0; }
         }
 
-        /* Effet de particules explosives au clic */
+        /* Particules explosives */
         .explosion-particle {
             position: fixed;
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: #00ffff;
             border-radius: 50%;
             pointer-events: none;
             z-index: 1000;
-            box-shadow: 0 0 10px #00ffff;
+            box-shadow: 0 0 15px #00ffff;
         }
 
         /* YouTube player caché */
@@ -278,51 +696,54 @@
             right: 20px;
             z-index: 1000;
             background: rgba(0, 255, 255, 0.1);
-            border: 2px solid rgba(0, 255, 255, 0.3);
-            padding: 10px 20px;
+            border: 2px solid rgba(0, 255, 255, 0.4);
+            padding: 12px 24px;
             border-radius: 50px;
             color: #00ffff;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 13px;
             transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
         .volume-control:hover {
             background: rgba(0, 255, 255, 0.2);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+            transform: scale(1.05);
         }
 
-        /* Message d'instruction */
-        .instruction {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(0, 255, 255, 0.3);
-            padding: 30px 50px;
-            border-radius: 20px;
-            color: #00ffff;
-            font-size: 18px;
-            text-align: center;
-            z-index: 1000;
-            animation: fadeInScale 0.5s ease;
-            display: none;
-        }
-
-        .instruction.active {
-            display: block;
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.8);
+        /* Responsive */
+        @media (max-width: 768px) {
+            .central-circle {
+                width: 350px;
+                height: 350px;
             }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
+            .inner-circle {
+                width: 250px;
+                height: 250px;
+            }
+            .title {
+                font-size: 32px;
+            }
+            .subtitle {
+                font-size: 14px;
+            }
+            .progress-container {
+                width: 300px;
+            }
+            .logo-3d {
+                width: 100px;
+                height: 100px;
+                top: -150px;
+            }
+            .logo-face {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
+            .countdown-timer {
+                font-size: 36px;
             }
         }
     </style>
@@ -331,15 +752,51 @@
     <!-- Canvas pour l'effet starfield -->
     <canvas id="starfield"></canvas>
 
+    <!-- Scanlines rétro -->
+    <div class="scanlines"></div>
+
+    <!-- Grille cyberpunk -->
+    <div class="cyber-grid"></div>
+
+    <!-- Néons latéraux -->
+    <div class="neon-bar left"></div>
+    <div class="neon-bar right"></div>
+
+    <!-- Containers pour effets dynamiques -->
+    <div id="dustContainer"></div>
+    <div id="laserContainer"></div>
+    <div id="hexagonContainer"></div>
+    <div id="matrixContainer"></div>
+    <div id="geoContainer"></div>
+
     <!-- Container principal -->
     <div class="splash-container">
         <div class="central-circle">
+            <!-- Logo 3D rotatif -->
+            <div class="logo-3d">
+                <div class="logo-face">🏗️</div>
+                <div class="logo-face">💎</div>
+                <div class="logo-face">⚡</div>
+                <div class="logo-face">🚀</div>
+                <div class="logo-face">🔥</div>
+                <div class="logo-face">✨</div>
+            </div>
+
             <!-- Anneaux rotatifs -->
             <div class="ring"></div>
             <div class="ring"></div>
             <div class="ring"></div>
 
-            <!-- Particules flottantes -->
+            <!-- Ondes de choc -->
+            <div class="shockwave" style="animation-delay: 0s;"></div>
+            <div class="shockwave" style="animation-delay: 1s;"></div>
+            <div class="shockwave" style="animation-delay: 2s;"></div>
+
+            <!-- Éclairs électriques -->
+            <div class="lightning" style="left: 20%; animation-delay: 0s;"></div>
+            <div class="lightning" style="right: 20%; animation-delay: 2s;"></div>
+
+            <!-- Particules orbitales -->
             <div class="particle"></div>
             <div class="particle"></div>
             <div class="particle"></div>
@@ -357,20 +814,22 @@
         </div>
     </div>
 
-    <!-- Messages -->
-    <div class="click-message">CLIQUEZ N'IMPORTE OÙ POUR COMMENCER</div>
-    <div class="countdown" id="countdown">Redirection dans <span id="timer">5</span>s</div>
-    <div class="instruction" id="instruction">
-        🎵 PROFITEZ DE L'AMBIANCE 🎵<br>
-        <small style="opacity: 0.7; font-size: 14px; margin-top: 10px; display: block;">
-            Redirection automatique dans quelques secondes...
-        </small>
+    <!-- Barre de progression -->
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">INITIALISATION...</div>
+        <div class="countdown-timer" id="countdownTimer">20s</div>
     </div>
+
+    <!-- Messages -->
+    <div class="click-message" id="clickMessage">CLIQUEZ POUR COMMENCER</div>
 
     <!-- Contrôle audio -->
     <div class="volume-control" id="volumeBtn">🔊 SON</div>
 
-    <!-- YouTube Player (caché) -->
+    <!-- YouTube Player -->
     <div id="youtube-player"></div>
 
     <!-- YouTube API -->
@@ -381,8 +840,7 @@
         let player;
         let playerReady = false;
         let musicStarted = false;
-        let countdownStarted = false;
-        let countdownTimer = 20; // Durée en secondes avant redirection
+        let loadingStarted = false;
 
         // ============= YOUTUBE PLAYER =============
         function onYouTubeIframeAPIReady() {
@@ -405,10 +863,9 @@
 
         function onPlayerReady(event) {
             playerReady = true;
-            player.setVolume(40); // Volume à 40%
+            player.setVolume(40);
         }
 
-        // Démarrer la musique
         function startMusic() {
             if (playerReady && !musicStarted) {
                 player.playVideo();
@@ -417,7 +874,6 @@
             }
         }
 
-        // Toggle musique
         const volumeBtn = document.getElementById('volumeBtn');
         volumeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -433,6 +889,21 @@
             }
         });
 
+        // ============= PARTICULES DE POUSSIÃˆRE =============
+        function createDustParticles() {
+            const container = document.getElementById('dustContainer');
+            for (let i = 0; i < 50; i++) {
+                const dust = document.createElement('div');
+                dust.className = 'dust-particle';
+                dust.style.left = Math.random() * 100 + '%';
+                dust.style.animationDelay = Math.random() * 15 + 's';
+                dust.style.animationDuration = (10 + Math.random() * 10) + 's';
+                container.appendChild(dust);
+            }
+        }
+
+        createDustParticles();
+
         // ============= STARFIELD 3D =============
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
@@ -441,8 +912,8 @@
         canvas.height = window.innerHeight;
 
         const stars = [];
-        const numStars = 500;
-        const speed = 2;
+        const numStars = 600;
+        const speed = 2.5;
 
         class Star {
             constructor() {
@@ -508,17 +979,17 @@
             canvas.height = window.innerHeight;
         });
 
-        // ============= EFFET EXPLOSION =============
+        // ============= EXPLOSION =============
         function createExplosion(x, y) {
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 40; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'explosion-particle';
                 particle.style.left = x + 'px';
                 particle.style.top = y + 'px';
                 document.body.appendChild(particle);
 
-                const angle = (Math.PI * 2 * i) / 30;
-                const velocity = 2 + Math.random() * 3;
+                const angle = (Math.PI * 2 * i) / 40;
+                const velocity = 2 + Math.random() * 4;
                 const vx = Math.cos(angle) * velocity;
                 const vy = Math.sin(angle) * velocity;
 
@@ -550,34 +1021,62 @@
             update();
         }
 
-        // ============= COUNTDOWN & REDIRECTION =============
-        function startCountdown() {
-            if (countdownStarted) return;
-            countdownStarted = true;
+        // ============= BARRE DE PROGRESSION =============
+        function startLoading() {
+            if (loadingStarted) return;
+            loadingStarted = true;
 
-            // Afficher le message d'instruction
-            document.getElementById('instruction').classList.add('active');
-            setTimeout(() => {
-                document.getElementById('instruction').classList.remove('active');
-            }, 3000);
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const countdownTimer = document.getElementById('countdownTimer');
+            const clickMessage = document.getElementById('clickMessage');
 
-            // Masquer le message de clic
-            document.querySelector('.click-message').style.display = 'none';
+            clickMessage.style.display = 'none';
+            progressContainer.classList.add('active');
 
-            // Afficher le countdown
-            const countdownEl = document.getElementById('countdown');
-            const timerEl = document.getElementById('timer');
-            countdownEl.classList.add('active');
+            const messages = [
+                'INITIALISATION...',
+                'CHARGEMENT MODULES...',
+                'CONNEXION SERVEURS...',
+                'OPTIMISATION 3D...',
+                'FINALISATION...'
+            ];
 
-            const interval = setInterval(() => {
-                countdownTimer--;
-                timerEl.textContent = countdownTimer;
+            let progress = 0;
+            let messageIndex = 0;
+            let secondsLeft = 20;
 
-                if (countdownTimer <= 0) {
-                    clearInterval(interval);
-                    redirectToApp();
+            // Compte à rebours des secondes
+            const secondInterval = setInterval(() => {
+                secondsLeft--;
+                countdownTimer.textContent = secondsLeft + 's';
+                
+                if (secondsLeft <= 0) {
+                    clearInterval(secondInterval);
                 }
             }, 1000);
+
+            // Progression de la barre
+            const interval = setInterval(() => {
+                progress += 0.5;
+                progressFill.style.width = progress + '%';
+
+                if (progress % 20 === 0 && messageIndex < messages.length) {
+                    progressText.textContent = messages[messageIndex];
+                    messageIndex++;
+                }
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    clearInterval(secondInterval);
+                    progressText.textContent = 'LANCEMENT...';
+                    countdownTimer.textContent = '0s';
+                    setTimeout(() => {
+                        redirectToApp();
+                    }, 500);
+                }
+            }, 100);
         }
 
         function redirectToApp() {
@@ -589,36 +1088,16 @@
 
         // ============= GESTION DES CLICS =============
         document.body.addEventListener('click', (e) => {
-            // Démarrer la musique
             startMusic();
-
-            // Créer l'explosion
             createExplosion(e.clientX, e.clientY);
-            
-            // Démarrer le countdown
-            startCountdown();
+            startLoading();
         });
 
-        // Démarrage automatique au mouvement de souris (pour lancer la musique)
-        let firstMove = true;
-        document.addEventListener('mousemove', () => {
-            if (firstMove && !musicStarted) {
-                firstMove = false;
-                // Tentative de démarrage auto (peut être bloqué par le navigateur)
-                if (playerReady) {
-                    player.playVideo().catch(() => {
-                        // Si bloqué, on ne fait rien
-                    });
-                }
-            }
-        });
-
-        // Raccourci espace
         document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && !countdownStarted) {
+            if (e.code === 'Space' && !loadingStarted) {
                 e.preventDefault();
                 startMusic();
-                startCountdown();
+                startLoading();
             }
         });
     </script>
