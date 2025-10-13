@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devis Construction Pro - Chargement</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: #000;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* Canvas pour les étoiles */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Container principal */
+        .splash-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        /* Cercle central qui pulse */
+        .central-circle {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: mainPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes mainPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Anneaux qui tournent */
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid;
+            animation: rotate 10s linear infinite;
+        }
+
+        .ring:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            border-color: rgba(0, 255, 255, 0.3);
+            animation-duration: 8s;
+        }
+
+        .ring:nth-child(2) {
+            width: 120%;
+            height: 120%;
+            border-color: rgba(255, 0, 255, 0.2);
+            animation-duration: 12s;
+            animation-direction: reverse;
+        }
+
+        .ring:nth-child(3) {
+            width: 140%;
+            height: 140%;
+            border-color: rgba(0, 128, 255, 0.2);
+            animation-duration: 15s;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Cercle intérieur avec gradient */
+        .inner-circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(0, 255, 255, 0.4), 
+                rgba(255, 0, 255, 0.3), 
+                rgba(0, 0, 0, 0.8));
+            box-shadow: 
+                0 0 100px rgba(0, 255, 255, 0.6),
+                0 0 200px rgba(255, 0, 255, 0.4),
+                inset 0 0 80px rgba(0, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 
+                    0 0 100px rgba(0, 255, 255, 0.6),
+                    0 0 200px rgba(255, 0, 255, 0.4),
+                    inset 0 0 80px rgba(0, 255, 255, 0.3);
+            }
+            100% {
+                box-shadow: 
+                    0 0 150px rgba(0, 255, 255, 0.9),
+                    0 0 300px rgba(255, 0, 255, 0.6),
+                    inset 0 0 100px rgba(0, 255, 255, 0.5);
+            }
+        }
+
+        /* Texte */
+        .title {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ffff, #ff00ff, #00ffff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            animation: gradientFlow 3s ease infinite;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            letter-spacing: 4px;
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: rgba(0, 255, 255, 0.8);
+            text-align: center;
+            animation: blink 2s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Particules autour du cercle */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffff;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+
+        /* Génération de particules aléatoires */
+        .particle:nth-child(1) { top: 10%; left: 50%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 30%; left: 20%; animation-delay: 0.5s; }
+        .particle:nth-child(3) { top: 50%; left: 80%; animation-delay: 1s; }
+        .particle:nth-child(4) { top: 70%; left: 60%; animation-delay: 1.5s; }
+        .particle:nth-child(5) { top: 80%; left: 30%; animation-delay: 2s; }
+        .particle:nth-child(6) { top: 20%; left: 70%; animation-delay: 0.3s; }
+        .particle:nth-child(7) { top: 60%; left: 10%; animation-delay: 0.8s; }
+        .particle:nth-child(8) { top: 40%; left: 90%; animation-delay: 1.3s; }
+
+        /* Message "Cliquez" */
+        .click-message {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            z-index: 100;
+            animation: bounce 2s ease-in-out infinite;
+            letter-spacing: 3px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* Compteur de redirection */
+        .countdown {
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(0, 255, 255, 0.8);
+            font-size: 18px;
+            font-weight: 700;
+            z-index: 100;
+            display: none;
+            letter-spacing: 2px;
+        }
+
+        .countdown.active {
+            display: block;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+        }
+
+        /* Effet de fade out lors du clic */
+        body.fade-out {
+            animation: fadeOut 0.8s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Effet de particules explosives au clic */
+        .explosion-particle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #00ffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 0 10px #00ffff;
+        }
+
+        /* YouTube player caché */
+        #youtube-player {
+            position: fixed;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Bouton volume */
+        .volume-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: #00ffff;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .volume-control:hover {
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Message d'instruction */
+        .instruction {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 30px 50px;
+            border-radius: 20px;
+            color: #00ffff;
+            font-size: 18px;
+            text-align: center;
+            z-index: 1000;
+            animation: fadeInScale 0.5s ease;
+            display: none;
+        }
+
+        .instruction.active {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas pour l'effet starfield -->
+    <canvas id="starfield"></canvas>
+
+    <!-- Container principal -->
+    <div class="splash-container">
+        <div class="central-circle">
+            <!-- Anneaux rotatifs -->
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+
+            <!-- Particules flottantes -->
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+
+            <!-- Cercle central -->
+            <div class="inner-circle">
+                <div class="title">DEVIS PRO</div>
+                <div class="subtitle">CONSTRUCTION BTP</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="click-message">CLIQUEZ N'IMPORTE OÙ POUR COMMENCER</div>
+    <div class="countdown" id="countdown">Redirection dans <span id="timer">5</span>s</div>
+    <div class="instruction" id="instruction">
+        🎵 PROFITEZ DE L'AMBIANCE 🎵<br>
+        <small style="opacity: 0.7; font-size: 14px; margin-top: 10px; display: block;">
+            Redirection automatique dans quelques secondes...
+        </small>
+    </div>
+
+    <!-- Contrôle audio -->
+    <div class="volume-control" id="volumeBtn">🔊 SON</div>
+
+    <!-- YouTube Player (caché) -->
+    <div id="youtube-player"></div>
+
+    <!-- YouTube API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        // ============= VARIABLES GLOBALES =============
+        let player;
+        let playerReady = false;
+        let musicStarted = false;
+        let countdownStarted = false;
+        let countdownTimer = 20; // Durée en secondes avant redirection
+
+        // ============= YOUTUBE PLAYER =============
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                videoId: '3zB9JcN4vZ0',
+                playerVars: {
+                    autoplay: 0,
+                    controls: 0,
+                    loop: 1,
+                    playlist: '3zB9JcN4vZ0',
+                    modestbranding: 1,
+                    rel: 0,
+                    showinfo: 0
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            playerReady = true;
+            player.setVolume(40); // Volume à 40%
+        }
+
+        // Démarrer la musique
+        function startMusic() {
+            if (playerReady && !musicStarted) {
+                player.playVideo();
+                musicStarted = true;
+                document.getElementById('volumeBtn').textContent = '🔊 SON ON';
+            }
+        }
+
+        // Toggle musique
+        const volumeBtn = document.getElementById('volumeBtn');
+        volumeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!playerReady) return;
+
+            if (player.getPlayerState() === 1) {
+                player.pauseVideo();
+                volumeBtn.textContent = '🔇 SON OFF';
+            } else {
+                player.playVideo();
+                volumeBtn.textContent = '🔊 SON ON';
+                musicStarted = true;
+            }
+        });
+
+        // ============= STARFIELD 3D =============
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const stars = [];
+        const numStars = 500;
+        const speed = 2;
+
+        class Star {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width - canvas.width / 2;
+                this.y = Math.random() * canvas.height - canvas.height / 2;
+                this.z = Math.random() * canvas.width;
+            }
+
+            update() {
+                this.z -= speed;
+                if (this.z <= 0) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                const x = (this.x / this.z) * canvas.width + canvas.width / 2;
+                const y = (this.y / this.z) * canvas.height + canvas.height / 2;
+                const size = (1 - this.z / canvas.width) * 3;
+                const opacity = 1 - this.z / canvas.width;
+
+                ctx.fillStyle = `rgba(0, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                const px = (this.x / (this.z + speed)) * canvas.width + canvas.width / 2;
+                const py = (this.y / (this.z + speed)) * canvas.height + canvas.height / 2;
+
+                ctx.strokeStyle = `rgba(0, 255, 255, ${opacity * 0.3})`;
+                ctx.lineWidth = size / 2;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(px, py);
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < numStars; i++) {
+            stars.push(new Star());
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // ============= EFFET EXPLOSION =============
+        function createExplosion(x, y) {
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'explosion-particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                document.body.appendChild(particle);
+
+                const angle = (Math.PI * 2 * i) / 30;
+                const velocity = 2 + Math.random() * 3;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+
+                animateParticle(particle, vx, vy);
+            }
+        }
+
+        function animateParticle(particle, vx, vy) {
+            let x = parseFloat(particle.style.left);
+            let y = parseFloat(particle.style.top);
+            let opacity = 1;
+
+            function update() {
+                x += vx;
+                y += vy;
+                opacity -= 0.02;
+
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.opacity = opacity;
+
+                if (opacity > 0) {
+                    requestAnimationFrame(update);
+                } else {
+                    particle.remove();
+                }
+            }
+
+            update();
+        }
+
+        // ============= COUNTDOWN & REDIRECTION =============
+        function startCountdown() {
+            if (countdownStarted) return;
+            countdownStarted = true;
+
+            // Afficher le message d'instruction
+            document.getElementById('instruction').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('instruction').classList.remove('active');
+            }, 3000);
+
+            // Masquer le message de clic
+            document.querySelector('.click-message').style.display = 'none';
+
+            // Afficher le countdown
+            const countdownEl = document.getElementById('countdown');
+            const timerEl = document.getElementById('timer');
+            countdownEl.classList.add('active');
+
+            const interval = setInterval(() => {
+                countdownTimer--;
+                timerEl.textContent = countdownTimer;
+
+                if (countdownTimer <= 0) {
+                    clearInterval(interval);
+                    redirectToApp();
+                }
+            }, 1000);
+        }
+
+        function redirectToApp() {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 800);
+        }
+
+        // ============= GESTION DES CLICS =============
+        document.body.addEventListener('click', (e) => {
+            // Démarrer la musique
+            startMusic();
+
+            // Créer l'explosion
+            createExplosion(e.clientX, e.clientY);
+            
+            // Démarrer le countdown
+            startCountdown();
+        });
+
+        // Démarrage automatique au mouvement de souris (pour lancer la musique)
+        let firstMove = true;
+        document.addEventListener('mousemove', () => {
+            if (firstMove && !musicStarted) {
+                firstMove = false;
+                // Tentative de démarrage auto (peut être bloqué par le navigateur)
+                if (playerReady) {
+                    player.playVideo().catch(() => {
+                        // Si bloqué, on ne fait rien
+                    });
+                }
+            }
+        });
+
+        // Raccourci espace
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !countdownStarted) {
+                e.preventDefault();
+                startMusic();
+                startCountdown();
+            }
+        });
+    </script>
+</body>
+</html>
